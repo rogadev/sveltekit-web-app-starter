@@ -38,6 +38,7 @@ model AuthUser {
   auth_key     AuthKey[]
   // here you can add custom fields for your user
   // e.g. name, email, username, roles, etc.
+  username     String?  @db.VarChar(255)
 
   @@map("auth_user")
 }
