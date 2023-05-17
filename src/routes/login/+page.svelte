@@ -16,6 +16,7 @@
 			</label>
 			<div class="flex flex-col">
 				<button class="btn variant-filled-primary my-4" type="submit"> Sign in </button>
+				<a href="/signup" class="text-center">Sign up instead</a>
 			</div>
 		</form>
 	</div>
