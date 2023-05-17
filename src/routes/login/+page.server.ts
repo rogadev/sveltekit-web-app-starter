@@ -14,8 +14,7 @@ export const actions: Actions = {
     const username = form.get("username");
     const password = form.get("password");
     // check for empty values
-    if (typeof username !== "string" || typeof password !== "string")
-      return fail(400);
+    if (!username || !password) return fail(400, "Missing username or password");
     try {
       /**
        * Validating passwords
@@ -24,9 +23,9 @@ export const actions: Actions = {
       const key = await auth.useKey("username", username, password);
       const session = await auth.createSession(key.userId);
       locals.auth.setSession(session);
-    } catch {
-      // invalid credentials
-      return fail(400);
+    } catch (e) {
+      console.error(e);
+      return fail(400, e.message);
     }
   }
 };
