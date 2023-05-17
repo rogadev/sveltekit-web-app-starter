@@ -2,13 +2,37 @@
 	import { enhance } from '$app/forms';
 </script>
 
-<div class="m-6">
-	<h1>Create an account</h1>
-	<form method="POST" use:enhance>
-		<label for="username">Username</label><br />
-		<input class="form-input" id="username" name="username" /><br />
-		<label for="password">Password</label><br />
-		<input class="form-input" type="password" id="password" name="password" /><br />
-		<input type="submit" value="Signup" />
-	</form>
+<div class="container h-full mx-auto flex justify-center items-center">
+	<div class="card px-8 py-4">
+		<h1 class="mb-4 text-3xl text-center">Register</h1>
+		<form method="POST" use:enhance>
+			<label class="label">
+				<span>Username</span>
+				<input class="input" name="username" type="text" placeholder="john@email.com" />
+			</label>
+			<label class="label">
+				<span>Password</span>
+				<input class="input" name="password" type="password" placeholder="Password" />
+			</label>
+			<label class="label">
+				<span>Confirm Password</span>
+				<input
+					class="input"
+					name="passwordConfirm"
+					type="password"
+					placeholder="Confirm Password"
+				/>
+			</label>
+			<div class="flex flex-col">
+				<button class="btn variant-filled-primary my-4" type="submit"> Sign up </button>
+				<a href="/login" class="text-center">Login instead</a>
+			</div>
+		</form>
+	</div>
 </div>
+
+<style>
+	label {
+		margin-bottom: 1rem;
+	}
+</style>
