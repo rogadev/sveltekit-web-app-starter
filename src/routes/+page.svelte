@@ -12,8 +12,8 @@
 			<p>User id: {data.user.userId}</p>
 			<p>Username: {data.user.username}</p>
 		</div>
-		<form use:enhance method="post">
-			<input type="submit" class="button" value="Sign out" />
+		<form use:enhance method="post" class="flex flex-col">
+			<button type="submit" class="btn variant-filled-primary">Sign out</button>
 		</form>
 	</div>
 </div>

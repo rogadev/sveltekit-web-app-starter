@@ -18,21 +18,12 @@ export const actions: Actions = {
     const passwordConfirm = form.get("passwordConfirm");
 
     // check for empty values
-    if (!username || !password || !passwordConfirm) {
-      return fail(400, "Please fill out all fields.");
-    }
+    if (!username || !password || !passwordConfirm) return fail(400, "Please fill out all fields.");
 
-    // check if username is already in use
-    const userExists = await auth.getUser({
-      providerId: "username",
-      providerUserId: username
-    });
-    if (userExists) return fail(400, "Username is already in use.");
 
     // check if passwords match
-    if (password !== passwordConfirm) {
-      return fail(400, "Passwords do not match.");
-    }
+    if (password !== passwordConfirm) return fail(400, "Passwords do not match.");
+
 
     // check password length (min 12 characters)
     if (password.length < 12) return fail(400, "Password is too short. Must be at least 12 characters.");
