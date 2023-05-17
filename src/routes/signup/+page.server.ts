@@ -15,11 +15,31 @@ export const actions: Actions = {
     const form = await request.formData();
     const username = form.get("username");
     const password = form.get("password");
+    const passwordConfirm = form.get("passwordConfirm");
 
     // check for empty values
-    if (typeof username !== "string" || typeof password !== "string") {
-      return fail(400);
+    if (!username || !password || !passwordConfirm) {
+      return fail(400, "Please fill out all fields.");
     }
+
+    // check if username is already in use
+    const userExists = await auth.getUser({
+      providerId: "username",
+      providerUserId: username
+    });
+    if (userExists) return fail(400, "Username is already in use.");
+
+    // check if passwords match
+    if (password !== passwordConfirm) {
+      return fail(400, "Passwords do not match.");
+    }
+
+    // check password length (min 12 characters)
+    if (password.length < 12) return fail(400, "Password is too short. Must be at least 12 characters.");
+
+    // check password strength (min 1 lowercase, 1 uppercase, 1 number, 1 symbol)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{12,}$/;
+    if (!passwordRegex.test(password)) return fail(400, "Password is too weak. Must contain at least 1 lowercase, 1 uppercase, 1 number, and 1 symbol.");
 
     try {
       /**
@@ -38,9 +58,10 @@ export const actions: Actions = {
       });
       const session = await auth.createSession(user.userId);
       locals.auth.setSession(session);
-    } catch {
-      // Fail if username is already in use
-      return fail(400);
+    } catch (e) {
+      // Something went wrong.
+      console.error(e);
+      return fail(400, e.message);
     }
   }
 };
